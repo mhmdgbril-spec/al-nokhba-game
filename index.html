@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لعبة النخبة العلمية</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0d1b2a" />
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+  <button id="theme-toggle" onclick="toggleTheme()">🌙 وضع ليلي</button>
+  <button id="music-toggle" onclick="toggleMusic()">🎵 تشغيل الموسيقى</button>
+  <button id="achievements-btn" onclick="showAchievements()">🏆 الإنجازات</button>
+
+  <div id="start-screen" class="screen">
+    <h1>🧠 لعبة النخبة العلمية</h1>
+    <p>اكتب المصطلحات العلمية لتدمر الأعداء</p>
+    <button onclick="startGame()">ابدأ اللعب</button>
+  </div>
+
+  <div id="game-screen" class="screen hidden">
+    <div id="stats">
+      <span>النقاط: <span id="score">0</span></span>
+      <span>المستوى: <span id="level">1</span></span>
+      <span>الوقت: <span id="timer">30</span> ثانية</span>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+    <input id="wordInput" type="text" placeholder="اكتب المصطلح..." />
+  </div>
+
+  <div id="game-over-screen" class="screen hidden">
+    <h2>💥 انتهت اللعبة!</h2>
+    <p>نقاطك: <span id="final-score">0</span></p>
+    <p>الوقت المتبقي: <span id="final-time">0</span> ثانية</p>
+    <h3>🏆 أفضل 5 نتائج:</h3>
+    <ol id="high-scores"></ol>
+    <button onclick="shareResult()">📤 مشاركة النتيجة كصورة</button>
+    <button onclick="restartGame()">إعادة اللعب</button>
+  </div>
+
+  <div id="achievements-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>🏆 إنجازاتك</h2>
+      <ul id="achievements-list"></ul>
+      <button onclick="closeAchievements()">إغلاق</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

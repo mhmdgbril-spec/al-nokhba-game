@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>لوحة تحكم النخبة العلمية</title>
+  <style>
+    body { font-family: 'Tahoma'; margin: 20px; background: #f4f4f9; color: #333; }
+    h1 { color: #06d6a0; }
+    textarea { width: 100%; height: 200px; font-size: 16px; }
+    button { padding: 10px 20px; margin-top: 10px; background: #06d6a0; color: #fff; border: none; border-radius: 8px; cursor: pointer; }
+    pre { background: #eee; padding: 10px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>🧠 لوحة تحكم النخبة العلمية</h1>
+  <h2>تعديل الكلمات</h2>
+  <textarea id="wordsArea"></textarea>
+  <br />
+  <button onclick="saveWords()">حفظ الكلمات</button>
+  <button onclick="loadWords()">تحميل الكلمات الحالية</button>
+
+  <h2>📊 الإنجازات المحفوظة</h2>
+  <pre id="achievementsLog"></pre>
+
+  <h2>📅 التحدي اليومي</h2>
+  <pre id="dailyLog"></pre>
+
+  <script>
+    function loadWords() {
+      const words = JSON.parse(localStorage.getItem('levelWords')) || {
+        1: ['نص', 'دالة', 'كائن', 'متغير', 'حلقة'],
+        2: ['مصفوفة', 'شرط', 'إرجاع', 'استيراد', 'تصدير'],
+        3: ['واجهة', 'صنف', 'مكتبة', 'نموذج', 'خوارزمية'],
+        4: ['اطبع("مرحبا")', 'إذا (س > 10)', 'لـ(دع i = 0)', 'ارجع صواب', 'استدعاء دالة'],
+        5: ['تعريف صنف جديد', 'دالة تكرارية', 'مؤشر إلى كائن', 'قائمة مرتبطة', 'شجرة ثنائية']
+      };
+      document.getElementById('wordsArea').value = JSON.stringify(words, null, 2);
+    }
+
+    function saveWords() {
+      try {
+        const newWords = JSON.parse(document.getElementById('wordsArea').value);
+        localStorage.setItem('levelWords', JSON.stringify(newWords));
+        alert('✅ تم حفظ الكلمات بنجاح');
+      } catch (e) {
+        alert('❌ خطأ في صيغة JSON');
+      }
+    }
+
+    function loadLogs() {
+      document.getElementById('achievementsLog').textContent = JSON.stringify(localStorage.getItem('achievements'), null, 2);
+      document.getElementById('dailyLog').textContent = JSON.stringify(localStorage.getItem('dailyChallenge'), null, 2);
+    }
+
+    loadWords();
+    loadLogs();
+  </script>
+</body>
+</html>

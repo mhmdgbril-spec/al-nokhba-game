@@ -1,7 +1,3 @@
-window.addEventListener('load', () => {
-  document.getElementById('achievements-modal').classList.add('hidden');
-  // باقي الكود...
-});
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const input = document.getElementById('wordInput');
@@ -31,6 +27,18 @@ const gameOverSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-arc
 const levelUpSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3');
 const bgMusic = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
 bgMusic.loop = true;
+
+// ✅ إخفاء النافذة عند التحميل
+function hideAllScreens() {
+  document.querySelectorAll('.screen').forEach(screen => screen.classList.add('hidden'));
+  document.getElementById('achievements-modal').classList.add('hidden');
+}
+
+// ✅ إظهار الشاشة الرئيسية فقط
+function showStartScreen() {
+  hideAllScreens();
+  document.getElementById('start-screen').classList.remove('hidden');
+}
 
 // ✅ إصلاح تحميل الإنجازات
 function resetAchievementsIfNeeded() {
@@ -293,7 +301,7 @@ function shareResult() {
 }
 
 function startGame() {
-  document.getElementById('start-screen').classList.add('hidden');
+  hideAllScreens();
   document.getElementById('game-screen').classList.remove('hidden');
   input.focus();
   gameRunning = true;
@@ -323,14 +331,14 @@ function restartGame() {
   location.reload();
 }
 
-// تهيئة
+// ✅ عند التحميل: إخفاء كل الشاشات وإظهار الرئيسية فقط
 window.addEventListener('load', () => {
   resetAchievementsIfNeeded();
   applyTheme();
   loadAchievements();
+  showStartScreen(); // 👈 هذا السطر يضمن أن الشاشة الرئيسية تظهر أولاً
   if (localStorage.getItem('music') === 'on') {
     bgMusic.play();
     document.getElementById('music-toggle').textContent = '🔇 إيقاف الموسيقى';
   }
 });
-

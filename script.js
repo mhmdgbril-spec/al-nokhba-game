@@ -28,6 +28,27 @@ const levelUpSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-achi
 const bgMusic = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
 bgMusic.loop = true;
 
+// ✅ إصلاح تحميل الإنجازات
+function resetAchievementsIfNeeded() {
+  const saved = localStorage.getItem('achievements');
+  if (!saved || saved === 'null' || saved === 'undefined') {
+    localStorage.setItem('achievements', JSON.stringify(achievements));
+  }
+}
+
+function loadAchievements() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('achievements'));
+    if (saved && Array.isArray(saved)) {
+      saved.forEach((a, i) => {
+        if (achievements[i]) achievements[i].unlocked = a.unlocked;
+      });
+    }
+  } catch (e) {
+    console.warn('خطأ في تحميل الإنجازات:', e);
+  }
+}
+
 // وضع ليلي/نهاري
 function applyTheme() {
   const theme = localStorage.getItem('theme') || 'dark';
@@ -56,7 +77,7 @@ function toggleMusic() {
   }
 }
 
-// إنجازات
+// 🏆 الإنجازات
 const achievements = [
   { id: 'first100', name: 'البداية القوية', desc: 'حقق 100 نقطة لأول مرة', icon: '💪', unlocked: false },
   { id: 'level5', name: 'العالم الخامس', desc: 'وصل إلى المستوى 5', icon: '🌍', unlocked: false },
@@ -70,13 +91,6 @@ function unlockAchievement(id) {
     ach.unlocked = true;
     localStorage.setItem('achievements', JSON.stringify(achievements));
     showNotification(`🎉 إنجاز جديد: ${ach.name}`);
-  }
-}
-
-function loadAchievements() {
-  const saved = JSON.parse(localStorage.getItem('achievements'));
-  if (saved) {
-    saved.forEach((a, i) => achievements[i].unlocked = a.unlocked);
   }
 }
 
@@ -307,6 +321,7 @@ function restartGame() {
 
 // تهيئة
 window.addEventListener('load', () => {
+  resetAchievementsIfNeeded();
   applyTheme();
   loadAchievements();
   if (localStorage.getItem('music') === 'on') {

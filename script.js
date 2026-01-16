@@ -1,3 +1,7 @@
+window.addEventListener('load', () => {
+  document.getElementById('achievements-modal').classList.add('hidden');
+  // باقي الكود...
+});
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const input = document.getElementById('wordInput');
@@ -329,3 +333,4 @@ window.addEventListener('load', () => {
     document.getElementById('music-toggle').textContent = '🔇 إيقاف الموسيقى';
   }
 });
+
